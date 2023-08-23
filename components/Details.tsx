@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
@@ -66,6 +67,14 @@ function Details({route}: {route: any}) {
 
   return (
     <>
+      {book.title == '' && (
+        <View style={{justifyContent:'center',flex:1,}}>
+          
+          
+          <ActivityIndicator size="large" color={'crimson'}/>
+          
+        </View>
+      )}
       {book.title !== '' && (
         <ScrollView style={styles.mainView}>
           <View

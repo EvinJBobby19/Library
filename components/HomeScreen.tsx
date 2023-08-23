@@ -1,17 +1,22 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Button,
   Image,
+  LogBox,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {decrement} from '../Redux/BookMarkSlice';
 import {RootState} from '../Redux/store';
+import Search from './Search';
+// import Search from './Search';
 
 interface Product {
   title: string;
@@ -25,7 +30,9 @@ interface Product {
 function HomeScreen({navigation}: {navigation: any}) {
   const [products, setProducts] = useState<Product[]>([]);
 
+  
   let toggle2 = false;
+
   useEffect(() => {
     axios.get('https://api.itbook.store/1.0/new').then(response => {
       const data = response.data;
@@ -34,10 +41,12 @@ function HomeScreen({navigation}: {navigation: any}) {
       }
     });
   }, []);
-
+  
   const books = useSelector((state: RootState) => state.counter.bookMark);
   const dispatch = useDispatch();
+  LogBox.ignoreLogs(["Warning: Each"])
 
+  
   return (
     <ScrollView>
       <View>
@@ -50,15 +59,28 @@ function HomeScreen({navigation}: {navigation: any}) {
           />
         </View>
 
-        <Button
+
+
+        {/* <Button
           color="crimson"
           title="View Profile"
           onPress={() => navigation.navigate('Profile')}
-        />
+        /> */}
+        <View style={{position:'relative',zIndex:2,backgroundColor:'white',width:'100%'}}>
+        <Search />
+        </View>
+         
+
 
         <View style={styles.view2}>
+          {products.length == 0 && (
+            <View style={{justifyContent: 'center',alignItems:'center', flex: 1}}>
+              <ActivityIndicator size="large" color={'crimson'} />
+            </View>
+          )}
           {products.map((el: any) => {
             return (
+              
               <View key={el.id} style={styles.cardView}>
                 <View style={styles.bookImage}>
                   <TouchableOpacity
@@ -105,6 +127,7 @@ function HomeScreen({navigation}: {navigation: any}) {
                   </View>
                 </ScrollView>
               </View>
+              
             );
           })}
         </View>
