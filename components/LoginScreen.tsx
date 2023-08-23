@@ -12,11 +12,14 @@ import LogoutButton from './LogoutButton';
 import ProfileScreen from './ProfileScreen';
 import {useAuth0} from 'react-native-auth0';
 import {useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 function LoginScreen({navigation}: {navigation: any}) {
   const {user} = useAuth0();
 
-
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   useEffect(() => {
     
